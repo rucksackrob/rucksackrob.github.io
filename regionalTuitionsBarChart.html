@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="styles.css" title="external style sheet">
+  </head>
+<meta charset="utf-8">
+
+<body>
+    <div id="header-title">
+        <p>
+            Average Regional Tuitions
+        </p>
+    </div>
+    <div id="sidebar-blurb">
+        <p>Text goes here.</p>
+    </div>
+    <div id="body-chart">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script>
+    var margin = {top: 20, right: 20, bottom: 40, left: 80},
+        width = 700 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
+    // setup fill color
+    var cValue = function(d) { return +d.Region;},
+        color = d3.scale.category10()
+            .domain([1,2,3,4,5]);
+    
+    // setup x 
+    var xValue = function(d) { return d.RegionName;}, // data -> value
+        xScale = d3.scale.ordinal().rangeRoundBands([0, width], .05), // value -> display
+        xMap = function(d) { return xScale(xValue(d));}, // data -> display
+        xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient("bottom");
+    
+    // setup y
+    var yValue = function(d) { return d.AverageOosCost;}, // data -> value
+        yScale = d3.scale.linear().rangeRound([height, 0]), // value -> display
+        yMap = function(d) { return yScale(yValue(d));}, // data -> display
+        yAxis = d3.svg.axis().scale(yScale).orient("left");
+    
+    // add the graph canvas to the body of the webpage
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    // add the tooltip area to the webpage
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    //load the data
+    d3.csv("regionLevelSchoolData.csv", function(error, data) {
+        // change string (from CSV) into number format
+       data.forEach(function(d) {
+                d.AverageOosCost = +d.AverageOosCost;
+                d.Region = +d.Region
+                
+       });
+
+       // set ranges for axes
+       xScale.domain(data.map(function(d) { return d.RegionName; }));
+       yScale.domain([0, d3.max(data, yValue)+500]);
+    
+       // x-axis
+       svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis)
+        .append("text")
+          .attr("class", "label")
+          .attr("x", width / 2)
+          .attr("y", margin.bottom - 4)
+          .style("text-anchor", "middle")
+          .style("font-weight", "bold")
+          .style("font-size", "14px")
+          .text("Region");
+    
+      // y-axis
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis)
+        .append("text")
+          .attr("class", "label")
+          .attr("transform", "rotate(-90)")
+          .attr("x", -height / 2)
+          .attr("y", -margin.left + 10)
+          .attr("dy", ".71em")
+          .style("text-anchor", "middle")
+          .style("font-weight", "bold")
+          .style("font-size", "14px")
+          .text("Average Out-of-State Tuition ($)");
+    
+      // draw bars
+      svg.selectAll("bar")
+        .data(data)
+       .enter().append("rect")
+        .attr("x", function(d) { return xScale(d.RegionName); })
+        .attr("width", xScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.AverageOosCost); })
+        .attr("height", function(d) { return height - yScale(d.AverageOosCost); })
+        .attr("fill", function(d) {
+            if (d.Region == 1) { return "#1f77b4" ;}
+            else if (d.Region == 2) { return "#ff7f0e" ;}
+            else if (d.Region == 3) { return "#2ca02c" ;}
+            else if (d.Region == 4) { return "#d62728" ;}
+            else if (d.Region == 5) { return "#9467bd" ;}        
+        })
+        .on("mouseover", function(d) {
+           tooltip.transition()
+                .duration(200)
+                .style("opacity", .95);
+                tooltip.html(d.RegionName 
+                + "<br/>Average Out Of State Tuition: $"  + d.AverageOosCost 
+                + "<br/>Average Teacher Salary: $"  + d.AverageSalary 
+                + "<br/>Graduation Ratio: " + d.AverageCompletionRate
+                + "<br/>Schools in Region: "  + d.NumberOfSchools )
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY) + "px")
+                .style("background-color", color(cValue(d)))
+           d3.select(this).style("opacity", 0.75)
+       })
+       .on("mouseout", function(d) {
+           tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+           d3.select(this).style("opacity", 1.0)
+       })
+    });
+    </script>
+</div>
+<div id="bottom-buttons">    
+<a href="tuitionGradRateScatter.html" class="previous round">&#8249;</a>
+<a href="#" class="essay-button">Open the Essay</a>
+<!--<a href="#" class="next round">&#8250;</a>-->
+</div>
+</body>
+</html>

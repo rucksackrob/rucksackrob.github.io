@@ -1,0 +1,6 @@
+Region,RegionName,AverageCompletionRate,AverageSalary,NumberOfSchools,AverageOosCost
+1,Northeast,0.21,64558,433,18719
+2,Midwest,0.20,67163,439,18847
+3,South,0.19,62293,502,16287
+4,West,0.21,68250,226,16046
+5,Territories,0.15,68624,40,13745

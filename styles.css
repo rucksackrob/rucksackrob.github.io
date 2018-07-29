@@ -1,0 +1,80 @@
+body {
+    font: 11px sans-serif;
+  }
+  
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+  
+  .dot {
+    stroke: #000;
+  }
+  
+  .tooltip {
+    position: absolute;
+    width: auto;
+    height: auto;
+    pointer-events: none;
+    color: #FFF;
+  }
+  
+  a {
+      font: 32px sans-serif;
+      text-decoration: none;
+      display: inline-block;
+      padding: 10px 25px;
+  }
+  
+  a:hover {
+      background-color: #ddd;
+      color: black;
+  }
+  
+  .previous {
+      background-color: #4CAF50;
+      color: white;
+      position: absolute;
+      bottom: 2%;
+      left: 2%;
+  }
+  
+  .next {
+      background-color: #4CAF50;
+      color: white;
+      position: absolute;
+      bottom: 2%;
+      right: 2%;
+  }
+  
+  .round {
+      border-radius: 75%;
+  }
+
+  .essay-button {
+    background-color: #4CAF50;
+    color: white;
+    position: absolute;
+    bottom: 2%;
+    right: 40%;
+    font: 14px sans-serif;
+  }
+
+  #sidebar-blurb{
+      float:left;
+      height:600px;
+      width:15%;
+      background-color:lightsteelblue;
+  }
+
+  #body-chart{
+      float:left;
+      width:85%;
+  }
+  #bottom-buttons{
+      clear:both;
+      height:10%;
+      width:100%;
+  }
