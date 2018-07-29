@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+<p>For this narrative visualization, I have selected an interactive slide show to tell my story 
+    about the apparent lack of association between college tuitions and certain factors that might 
+    influence (or be influenced by) how much you spend. 
+</p>
+<p>In this visualization, each scene is represented by a slide. After the title slide, each slide 
+    contains a single chart demonstrating the relationship between tuition and one or more factors. 
+    I chose the interactive slide show to tell this story in a linear fashion, though one that would 
+    allow the viewer to move back and forth as desired.
+</p>
+<p>For consistent visual style, each scene/slide is laid out similarly even if the charts themselves 
+    are different. Every slide has a short blurb serving as an annotation describing what the data is 
+    showing and letting the user know what interactive elements are present for them to explore the data 
+    within the chart presented in the scene. The positioning of blurb and chart, header and buttons is the 
+    same for every slide. Colors are consistent with the region variable on all three slides. Shapes for the 
+    scatter plots show the same ownership information. Arrow buttons for moving forward or backward in the 
+    slide show (and for viewing this essay) are in the same place from slide to slide. Additionally, though 
+    there are two types of charts, they all share one common element for interactivity - the ability to mouse 
+    over a data point or region and get more specific information via a tooltip. They also use similar font 
+    sizes and axis elements (which are simple) to maintain this visual continuity.
+    </p>
+    <p>I will share a bit more about the important elements of this narrative visualization: scenes, annotations, parameters, and triggers:</p>
+    <p><b>Scenes:</b></p>
+    <p>Aside from the title slide, I have included three scenes, each presented as a separate slide. I have described
+        the common visual elements of these scenes above. The three specific scenes, with some details about their layout/design are:
+    </p>
+    <ol>
+        <li>The relationship between tuition and teacher salary:
+            <p>This scene shows a scatter plot demonstrating the relationship, or lack thereof, between tuition and teacher salary. 
+                Shapes and colors were used to provide extra information about each data point, namely the ownership type and region
+                of each school represented in the chart. Because there are many datapoints, especially for each region, I allowed filtering
+                by region by clicking on the region on the legend. I have made it possible for the viewer to see detailed data for each school
+                by mousing over the data point. The blurb in the left-hand column describes what I believe the data shows to help tell the viewer 
+                the story and provides some suggestions for interacting with the chart.
+            </p>
+        </li>
+        <li>The relationship between tuition and graduation rate:
+            <p>This scene uses the same design/layout as the first scatter plot, but swaps out teacher salary for graduation rate. Design and layout
+                elements are the same.
+            </p>
+        </li>
+        <li>Average regional tuitions:
+            <p>This scene employs a bar chart for more direct comparisons of average tuition based on region. Note that the colors of the bars
+            are the same as for regions on the scatter plots, to provide some visual continuity for the user even though the chart type is different. 
+            The blurb, buttons, tooltips, and axes were all selected to maintain visual continuity as I moved away from the scatter plots to this bar 
+            chart. 
+            </p>
+        </li>
+    </ol>
+    <p><b>Annotations</b></p>    
+    <p>There are no permanently displayed annotations on the charts themselves. This was a deliberate choice and was done for a couple of reasons. 
+        First, there was no striking trend to point out in these charts. Calling out specific data points on the scatter plot, especially, seemed 
+        arbitrary. As such, I decided to include the blurb column on each chart as a callout of what the whole chart is showing you. Second, and this 
+        is also especially true for the scatter plots, there is enough going on just presenting the data so that cluttering it further didn't seem like 
+        a good choice. Putting the annotation to the side of the chart just made sense. I could have added on-chart annotations for the bar chart more 
+        easily, but visual continuity was important, so I kept the story-telling in the same place: in the blurb column on the left.
+    </p>
+    <p>I also hope that the story I'm telling in the blurbs inspires the viewer to explore the data some themselves and I essentially wanted all of
+        the data points to have annotations, but certainly not on screen at all times. Tooltips served this function. The bar chart could have 
+        maintained visual clarity while having these annotations on screen at all time, but I still preferred to maintain the visual simplicity and 
+        consistency of not having that information on screen at all times and suggesting to the viewer that they should explore and reveal that information 
+        on their own
+    </p>
+     <p><b>Parameters</b></p>   
+     <p>There are several parameters that control the visualization:</p>
+     <ul>
+         <li>Slide number/scene number: Moving between slides affected many parameters and was itself affected by user input using the left and right 
+             buttons.</li>
+         <li>Blurb text and slide title: changed based on which scene/slide was being shown.</li>
+         <li>Chart shown: which chart was shown was based on which scene/slide was being shown.</li>
+         <li>Data variables: which data variables were selected depended on which scene/slide was being shown.</li>
+         <li>Regional data subsets: for the two scatter plots, how much of the data, filtered by region, was based on user selection.</li>
+         <li>Tooltips and datapoint details: which tooltip (and therefore the datapoint for which detailed data was displayed) was dependent on user 
+             input as well. Note a couple specific parameters regarding the tooltip: the color of the tooltip matches the datapoint being selected and 
+             the size of the tooltip automatically fits the text. </li>
+         <li>Region: as per the above point, region can affect color of a tooltip when read from a selected datapoint or affect which data points are 
+             visible when selected from the legend.</li>
+         <li>Opacity: opacity of legend items, tooltips, bars in the bar chart, were all affected by user interaction.</li>
+         <li>Mouse position, mouse activity: These get at some of the key triggers of the visualization, but they are parameters as well - ones 
+             determined by user input. Where the mouse is positioned determines some display elements. Whether it has been clicked influences 
+             what is shown. These are parameters regarding the state of the visualization and must be captured to trigger important events.</li>
+     </ul>
+    <p><b>Triggers</b></p>
+    <p>There are several triggers based on parameter changes, mostly influenced by a user action. These include:</p>
+    <ul>
+        <li>Clicking the previous or next buttons (the green arrow buttons): changes the slide/scene forward or backward.</li>
+        <li>Clicking the "About the visualization" button: opens this essay in a new window or tab.</li>
+        <li>Changing the slide/scene: changes the chart type, blurb text and slide title, can change available navigation buttons at the bottom.</li>
+        <li>Changing the chart type: changes what data is displayed and some of the available chart interactions.</li>
+        <li>Clicking a region on the legend: filters out other regions from the scatter plot being shown.</li>
+        <li>Clicking the "Region" header on the legend: resets all the filters so all data points are shown on the scatter plot.</li>
+        <li>Positioning the mouse over a navigation button at the bottom: triggers a color change for the button, giving a clue that it can be clicked.</li>
+        <li>Positioning the mouse over a region (or the "Region" header) on the legend: displays a tooltip to guide the viewer that they can click 
+            to change the filtering state.</li>
+        <li>Positioning the mouse over a data point on the scatter plot: gives information specific to the school that the data point represents</li>
+        <li>Positioning the mouse over a bar on the bar chart: gives detailed data for the region that the bar represents.
+    </ul>
+    <p><b>A closing note</b></p>
+       <p>I chose some elements that helped to tell a very short story about the seeming lack of relationship between tuition and what you get for it. 
+           If I kept telling this story, I would explore many more variables and find some more meaningful trends, and the story would change. 
+           There are also many ways to tell this story visually and other charts could be used to tell these parts of the story; I feel like I only 
+           scratched the surface in that regard.  This is more like the start of a story than the whole story, but I thought that the nature of the 
+           assignment was to make a couple charts really do what I wanted them to do instead of make many charts and not have the time to really explore 
+           what each chart could do. I hope that the viewers - fellow students, professors, and random passers-by - enjoy what I've put together. 
+           Thanks for looking.
+        </p>
+</body>
+</html>

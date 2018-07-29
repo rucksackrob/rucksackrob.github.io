@@ -11,23 +11,22 @@
             The Relationship between Tuition and Graduation Rate
         </p>
     </div>
-    <div id="sidebar-blurb">
-        <p>Text goes here.</p>
+    <div id="sidebar-blurb">        
+        <p class="description">Nor is tuition clearly associated with graduation rate. 
+            No matter which region you go to school or whether you go to a private or 
+            public institution, the amount you pay has little relationship with the 
+            likelihood that you will graduate.</p>
+        <p class="instruction">Select a region in the legend to see if this relationship changes depending on where in the country 
+            schools are located.</p>
+        <p class="instruction">Click on "region" to clear the filters.</p>
+        <p class="instruction">Mouse over a data point to get school-specific information.</p>
     </div>
-    <div id="body-chart">
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script>
     var margin = {top: 20, right: 20, bottom: 40, left: 80},
         width = 700 - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
-    
-    /* 
-     * value accessor - returns the value to encode for a given data object.
-     * scale - maps value to a visual display encoding, such as a pixel position.
-     * map function - maps from data value to display value
-     * axis - sets up axis
-     */ 
-    
+        
     // setup x 
     var xValue = function(d) { return d.oosCost;}, // data -> value
         xScale = d3.scale.linear().range([0, width]), // value -> display
@@ -49,6 +48,7 @@
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        .attr("id", "body-chart")
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
@@ -121,6 +121,7 @@
                    .style("left", (d3.event.pageX + 5) + "px")
                    .style("top", (d3.event.pageY - 28) + "px")
                    .style("background-color",  color(cValue(d)))
+                   .style("color", "white");
           })
           .on("mouseout", function(d) {
               tooltip.transition()
@@ -128,65 +129,67 @@
                    .style("opacity", 0);
           });
     
-      // draw legend
-      var legend = svg.selectAll(".legend")
-          .data(color.domain())
-        .enter().append("g")
-          .attr("class", "legend")
-          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
-          .on("mouseover", function(d) {
-              tooltip.transition()
-                   .duration(200)
-                   .style("opacity", .95);
-              tooltip.html("Click to Filter")
-                   .style("left", (d3.event.pageX + 2) + "px")
-                   .style("top", (d3.event.pageY - 2) + "px")
-                   .style("background-color", color)
-          })
-          .on("mouseout", function(d) {
-              tooltip.transition()
-                   .duration(500)
-                   .style("opacity", 0);
-          })
-          .on("click", function(type) {
-                // dim all of the icons in legend
-                d3.selectAll(".legend")
-                    .style("opacity", 0.3);
-                // make the one selected be un-dimmed
-                d3.select(this)
-                    .style("opacity", 1);
-                // select all dots and apply 0 opacity (hide)
-                d3.selectAll(".dot")
-                    .style("opacity", 0.0)
-                    .on("mouseover", function(d) {return d;})
-                // filter out the ones we want to show and apply properties
-                .filter(function(d) {
-                    return d.Region == type;
-                     })
-                    .style("opacity", 1)
-                    .on("mouseover", function(d) {
-              tooltip.transition()
-                   .duration(200)
-                   .style("opacity", .95);
-              tooltip.html(d.InstName + "<br/>Cost: "  + xValue(d) 
-              + "<br/>Grad Rate: " + yValue(d))
-                   .style("left", (d3.event.pageX + 5) + "px")
-                   .style("top", (d3.event.pageY - 28) + "px")
-                   .style("background-color",  color(cValue(d)))
-                })
-            });
-    
+      // draw region legend
+    var regionLegend = svg.selectAll(".regionLegend")
+       .data(color.domain())
+     .enter().append("g")
+       .attr("class", "regionlegend")
+       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
+       .on("mouseover", function(d) {
+           tooltip.transition()
+                .duration(200)
+                .style("opacity", 0.8);
+           tooltip.html("Click to Filter")
+                .style("left", (d3.event.pageX + 2) + "px")
+                .style("top", (d3.event.pageY - 2) + "px")
+                .style("color", "black")
+                .style("background-color", "white")
+       })
+       .on("mouseout", function(d) {
+           tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+       })
+       .on("click", function(type) {
+             // dim all of the icons in legend
+             d3.selectAll(".regionLegend")
+                 .style("opacity", 0.3);
+             // make the one selected be un-dimmed
+             d3.select(this)
+                  .style("opacity", 1);
+             // select all dots and apply 0 opacity (hide)
+             d3.selectAll(".dot")
+                 .style("opacity", 0.0)
+                 .on("mouseover", function(d) {return d;})
+             // filter out the ones we want to show and apply properties
+                 .filter(function(d) {
+                     return d.Region == type;
+                 })
+                     .style("opacity", 1)
+                     .on("mouseover", function(d) {
+                         tooltip.transition()
+                             .duration(200)
+                             .style("opacity", .95);
+                         tooltip.html(d.InstName + "<br/>Cost: "  + xValue(d) 
+                                     + "<br/>Avg Salary: " + yValue(d))
+                             .style("left", (d3.event.pageX + 5) + "px")
+                             .style("top", (d3.event.pageY - 28) + "px")
+                             .style("background-color",  color(cValue(d)))
+                             .style("color", "white");
+                      })
+           });
       // draw legend colored rectangles
-      legend.append("rect")
+      regionLegend.append("rect")
           .attr("x", width - 18)
+          .attr("y", 6)
           .attr("width", 18)
           .attr("height", 18)
           .style("fill", color);
     
       // draw legend text
-      legend.append("text")
+      regionLegend.append("text")
           .attr("x", width - 24)
-          .attr("y", 9)
+          .attr("y", 14)
           .attr("dy", ".35em")
           .style("text-anchor", "end")
           .text(function(d) {
@@ -195,85 +198,94 @@
               else if (+d == 3) { return "South";}
               else if (+d == 4) { return "West";}
               else { return "Territories";}
-        });
-            });
-    
-        //draw ownership legend
-        var ownerLegend = svg.selectAll(".ownerLegend")
-          .data(data)
-        .enter().append("g")
-          .attr("class", "ownerLegend")
-          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
-          .on("mouseover", function(d) {
-              tooltip.transition()
-                   .duration(200)
-                   .style("opacity", .95);
-              tooltip.html("Click to Filter")
-                   .style("left", (d3.event.pageX + 2) + "px")
-                   .style("top", (d3.event.pageY - 2) + "px")
-                   .style("background-color", color)
-          })
-          .on("mouseout", function(d) {
-              tooltip.transition()
-                   .duration(500)
-                   .style("opacity", 0);
-          })
-          .on("click", function(type) {
-                // dim all of the icons in legend
-                d3.selectAll(".ownerLegend")
-                    .style("opacity", 0.1);
-                // make the one selected be un-dimmed
-                d3.select(this)
-                    .style("opacity", 1);
-                // select all dots and apply 0 opacity (hide)
-                d3.selectAll(".dot")
-                    .style("opacity", 0.0)
-                    .on("mouseover", function(d) {return d;})
-                // filter out the ones we want to show and apply properties
-                .filter(function(d) {
-                    return d.Region == type;
-                     })
-                    .style("opacity", 1)
-                    .on("mouseover", function(d) {
-              tooltip.transition()
-                   .duration(200)
-                   .style("opacity", .95);
-              tooltip.html(d.InstName + "<br/>Cost: "  + xValue(d) 
-              + "<br/>Grad Rate: " + yValue(d))
-                   .style("left", (d3.event.pageX + 5) + "px")
-                   .style("top", (d3.event.pageY - 28) + "px")
-                   .style("background-color",  color(cValue(d)))
-                })
-
-      // draw legend shapes
-      ownerLegend.append("path")
-          .attr("d", d3.svg.symbol().type(function(d) {
-                if (d.Ownership < 2) { return "triangle-up" ;} //public
-                else if (d.Ownership < 3) { return "square" ;} //private nfp
-                else if (d.Ownership < 4) { return "cross" ;} //private fp
-          }))
-          .attr("x", width - 18)
-          .attr("width", 18)
-          .attr("height", 18)
-          .style("fill", d3.rgb("#ffffff"));
-    
-      // draw legend text
-      ownerLegend.append("text")
-          .attr("x", width - 24)
-          .attr("y", 9)
-          .attr("dy", ".35em")
-          .style("text-anchor", "end")
-          .text(function(d) {
-              if (+d.Ownership == 1) { return "Public";}
-              else if (+d.Ownership == 2) { return "Private, Not-for-profit";}
-              else { return "Private, For-profit";}
-        });
+           });
     });
+    
+        //draw legend title
+    svg.append("text")
+        .attr("x", width)
+        .attr("y", 0)
+        .attr("class", "legend_title")
+        .style("text-anchor", "end")
+        .text("Region")
+        .on("mouseover", function(d) {
+          tooltip.transition()
+            .duration(200)
+            .style("opacity", .8);
+          tooltip.html("Click to Clear Filters")
+            .style("left", (d3.event.pageX + 2) + "px")
+            .style("top", (d3.event.pageY - 2) + "px")
+            .style("color", "black")
+            .style("background-color", "white");
+        })
+        .on("mouseout", function(d) {
+          tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+        })
+        .on("click", function(type) {
+          // undim all of the icons in legend
+          d3.selectAll(".ownerLegend")
+            .style("opacity", 1.0);
+          // select all dots and make them appear and fix the mouseover functions
+          d3.selectAll(".dot")
+            .style("opacity", 1.0)
+            .on("mouseover", function(d) {
+               tooltip.transition()
+                .duration(200)
+                .style("opacity", .95);
+               tooltip.html(d.InstName + "<br/>Cost: "  + xValue(d) 
+                   + "<br/>Graduation Rate: " + yValue(d))
+                .style("left", (d3.event.pageX + 5) + "px")
+                .style("top", (d3.event.pageY - 28) + "px")
+                .style("background-color",  color(cValue(d)))
+                .style("color", "white");
+            });
+        }); 
+
+        svg.append("text")
+          .attr("x", width)
+          .attr("y", 118)
+          .attr("class", "legend_title")
+          .style("text-anchor", "end")
+          .text("Ownership"); 
+
+        svg.append("path")
+            .attr("d", d3.svg.symbol().type("triangle-up")) //public 
+            .attr("transform", "translate(" + (width - 5) + ",132)")
+            .style("fill", "brown");
+
+        svg.append("path")
+            .attr("d", d3.svg.symbol().type("square")) //private nfp 
+            .attr("transform", "translate(" + (width - 5) + ",150)")
+            .style("fill", "brown");
+
+        svg.append("path")
+            .attr("d", d3.svg.symbol().type("cross")) //private fp 
+            .attr("transform", "translate(" + (width - 5) + ",168)")
+            .style("fill", "brown");
+        
+        svg.append("text")
+          .attr("x", width - 20)
+          .attr("y", 134)
+          .style("text-anchor", "end")
+          .text("Public"); 
+        
+        svg.append("text")
+          .attr("x", width - 20)
+          .attr("y", 152)
+          .style("text-anchor", "end")
+          .text("Private Not-For-Profit"); 
+        
+        svg.append("text")
+          .attr("x", width - 20)
+          .attr("y", 170)
+          .style("text-anchor", "end")
+          .text("Private For-Profit"); 
   </script>
-</div>
 <div id="bottom-buttons">    
 <a href="tuitionSalaryScatter.html" class="previous round">&#8249;</a>
-<a href="#" class="essay-button">Open the Essay</a>
+<a href="aboutTheVisualization.html" target="_blank" class="essay-button">About the Visualization</a>
 <a href="regionalTuitionsBarChart.html" class="next round">&#8250;</a>
 </div>
 </body>

@@ -11,10 +11,17 @@
             Average Regional Tuitions
         </p>
     </div>
-    <div id="sidebar-blurb">
-        <p>Text goes here.</p>
+    <div id="sidebar-blurb">        
+            <p class="description">You may have noticed on the previous charts that some regions have more high tuitions, 
+                salaries, and graduation rates than others. Where in the country you want to go to school could affect how 
+                much you will spend.</p>
+            <p class="description">Going to college in a US Territory will typically cost less (in tuition) but graduation 
+                rates are lower despite slightly higher average salaries.</p>
+            <p class="description">The northeast and midwest have the most expensive schools, this is despite Northeast schools 
+                having relatively lower teacher salaries (other than for the South).</p> 
+            <p class="description">Graduation rate is fairly similar for all non-territorial regions.</p>
+            <p class="instruction">Mouse over a bar to explore these details about average regional school data for different regions.</p>
     </div>
-    <div id="body-chart">
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script>
     var margin = {top: 20, right: 20, bottom: 40, left: 80},
@@ -43,6 +50,7 @@
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        .attr("id", "body-chart")
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
@@ -130,10 +138,9 @@
        })
     });
     </script>
-</div>
 <div id="bottom-buttons">    
 <a href="tuitionGradRateScatter.html" class="previous round">&#8249;</a>
-<a href="#" class="essay-button">Open the Essay</a>
+<a href="aboutTheVisualization.html" target="_blank" class="essay-button">About the Visualization</a>
 <!--<a href="#" class="next round">&#8250;</a>-->
 </div>
 </body>

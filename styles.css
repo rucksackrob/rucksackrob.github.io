@@ -37,16 +37,16 @@ body {
       background-color: #4CAF50;
       color: white;
       position: absolute;
-      bottom: 2%;
-      left: 2%;
+      bottom: 20px;
+      left: 20px;
   }
   
   .next {
       background-color: #4CAF50;
       color: white;
       position: absolute;
-      bottom: 2%;
-      right: 2%;
+      bottom: 20px;
+      right: 20px;
   }
   
   .round {
@@ -57,24 +57,65 @@ body {
     background-color: #4CAF50;
     color: white;
     position: absolute;
-    bottom: 2%;
-    right: 40%;
+    bottom: 20px;
+    left: 400px;
     font: 14px sans-serif;
   }
 
-  #sidebar-blurb{
-      float:left;
-      height:600px;
-      width:15%;
-      background-color:lightsteelblue;
+  .note{
+      font: 14px sans-serif;
+      text-align:center;
   }
 
+  .description{
+
+  }
+
+  .instruction{
+      font:11px sans-serif;
+      font-style: italic; 
+  }
+  #header-title{
+      font:40px sans-serif;
+      position:absolute;
+      top:0px;
+      left:0px;
+      height:100px;
+      width:1000px;
+      text-align:center;
+      vertical-align:top;
+  }
+
+  #sidebar-blurb{
+      position:absolute;
+      top:120px;
+      left:0px;
+      height:600px;
+      width:200px;
+      background-color:lightsteelblue;
+      padding:8px;
+      font:12px sans-serif;
+  }
+  #body-text{
+    position:absolute;
+    top:300px;
+    left:225px;
+    width:750px;
+    font: 18px sans-serif;
+    text-align:left;
+    vertical-align:middle;
+  }
   #body-chart{
-      float:left;
-      width:85%;
+      position:absolute;
+      top:120px;
+      left:225px;
+      width:750px;
+      height:600px;
   }
   #bottom-buttons{
-      clear:both;
-      height:10%;
-      width:100%;
+      position:absolute;
+      bottom:0px;
+      left:0px;
+      height:100px;
+      width:1000px;
   }
